@@ -7,6 +7,10 @@ class CodeWriter:
         filename, ext = os.path.splitext(parser.filename)
         self.filename = filename + '.hack'
         self.commands = parser.commands
+
+        if os.path.exists(self.filename):
+            os.remove(self.filename)
+
         self.f = open(self.filename, 'a')
         self.st = parser.symbol_table
 
@@ -32,7 +36,6 @@ class CodeWriter:
             command += padding * '0' + binary
 
         if command is not None:
-            print(command)
             print(command, file=self.f)
 
     def write(self):

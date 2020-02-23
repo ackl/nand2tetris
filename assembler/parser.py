@@ -49,8 +49,7 @@ class Parser:
 
     def open_file(self):
         f = open(self.filename, 'r')
-        self.file = f
-        self.lines = self.file.readlines()
+        self.lines = f.readlines()
         f.close()
 
     def strip(self):
@@ -89,9 +88,9 @@ class Parser:
     def get_command_type(self):
         if self.current_line[0] == '@':
             return "load"
-        elif self.current_line[1] == '=':
+        elif self.current_line.find('=') > 0:
             return "compute"
-        elif self.current_line[1] == ';':
+        elif self.current_line.find(';') > 0:
             return "jump"
         elif self.current_line[0] == '(' and self.current_line[-1] == ')':
             return "label"
@@ -103,7 +102,7 @@ class Parser:
         return self.current_line[1:]
 
     def get_destination(self):
-        return self.current_line[0]
+        return self.current_line.split('=')[0]
 
     def get_computation(self):
         return self.current_line.split('=')[1]
